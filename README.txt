@@ -1,8 +1,18 @@
-K均值的时间复杂度为NKTD，其中，N代表样本个数，K代表k值，即聚类中心点个数，T代表循环次数，D代表样本数据的维度。
-本算法的改进主要在以下方面：
-一，	初始聚类中心点，传统的初始中心点是随机选择，由于K均值算法受初始中心点影响较大，为获得更好的效果，在本方法中，先将数据采用层次聚类的方法预处理，得到的k个中心点作为K均值算法的中心点。
-二，	传统的聚类中心点更新是在结束一次循环后，本方法的聚类中心采用实时更新策略，即每次将一个模式归于一个新的聚类中心时，即立刻更新新的所属中心和原属聚类中心的中心值，增强算法的收敛性。
-三，	为达到类内方差最小化，类类方差最大化这一原则，考虑到往往设定的K值不一定能很好实现聚类效果，故将以往的固定聚类中心改为一浮动区间。原有K为最小聚类中心个数，另设一聚类中心个数上限maxK。其具体实现如下：
-1）	当一待聚类的模式得到其最近中心时，计算该聚类中心类内方差和将此模式归于该中心之后的类内方差，如果两者差别大于某设定阈值，则以该模式数据为基础，得到一新的聚类中心。
-2）	当当前聚类中心个数等于设定的最大聚类中心时，合并最相邻的两个聚类。为使得到的聚类效果更为均衡，应该优先合并维度较小的聚类类别。
+What's Word Sense Disambiguation (WSD)?
+
+"In computational linguistics, word-sense disambiguation (WSD) is an open problem of natural language processing and ontology. WSD is identifying which sense of a word (i.e. meaning) is used in a sentence, when the word has multiple meanings. The solution to this problem impacts other computer-related writing, such as discourse, improving relevance of search engines, anaphora resolution, coherence, inference et cetera." --cited from wikipedia.
+
+What's K-means algorithm?
+
+"K-means clustering is a method of vector quantization, originally from signal processing, that is popular for cluster analysis in data mining. k-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster. This results in a partitioning of the data space into Voronoi cells." --also cited from wikipedia.
+
+This improved K-means algorithm achieves the clustering of word sense sample for future disambiguation. The traditional K-means algorithm has a O(NKTD) time complexity where N is the number of samplings, K is the number of clustering center, T is the number of iterations, and D is the dimension of the sampling vector.
+
+We improve this algorithm in the following aspects:
+
+First, we improve the selection of the initial clustering centers. In the traditional version, the intial centers are selected ramdonly. However, K-means algorithm is strongly influence by the intial centers. Intial centers selected by random may lead to bad results. In this improved version, the intial points are selected by a max-min distance algorithm, to fastly and efficiently get the best intial points.
+
+Second, the cluster centers are updated every time after the iteration is finished, where in this improved version, the clusters are updated once a new sample is included, which enhance the astringency of the algorithm.
+
+Third, in order to achieve the goal of "minimize the variance in clusters, maximize the varince between clusters", also taking the consideration that the intial K value, the clustering number, may not be the optimal, we build a mechanism to optimize the k value. When two clustering centers are too closed, we combine them. When the variance of a clustering is too large, we split it. 
 
